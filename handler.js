@@ -5,7 +5,7 @@ module.exports.getList = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '겟 리스트에 오셨습니다.',
         input: event,
       },
       null,
@@ -22,7 +22,7 @@ module.exports.getCamp = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '겟 캠프에 오셨습니다.',
         input: event,
       },
       null,
@@ -36,7 +36,7 @@ module.exports.patchLikes = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '패치라이크즈에 오셨습니다.',
         input: event,
       },
       null,
@@ -50,7 +50,7 @@ module.exports.createCamp = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '크리에이트캠프에 오셨습니다.',
         input: event,
       },
       null,
@@ -64,7 +64,7 @@ module.exports.deleteCamp = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '딜리트캠프에 오셨습니다.',
         input: event,
       },
       null,
@@ -78,7 +78,7 @@ module.exports.updateCamp = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: '업데이트 캠프에 오셨습니다.',
         input: event,
       },
       null,

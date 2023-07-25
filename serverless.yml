@@ -23,6 +23,8 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
+  stage: dev
+  region: ap-northeast-2
 
 # you can overwrite defaults here
 #  stage: dev
@@ -59,8 +61,43 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  getList:
+    handler: handler.getList
+    events:
+      - http:
+          path: camps
+          method: get
+  getCamp:
+    handler: handler.getCamp
+    events:
+      - http:
+          path: camps/{id}
+          method: get
+  patchLikes:
+    handler: handler.patchLikes
+    events:
+      - http:
+          path: camps/{id}
+          method: patch
+  createCamp:
+    handler: handler.createCamp
+    events:
+      - http:
+          path: camps
+          method: post
+  deleteCamp:
+    handler: handler.deleteCamp
+    events:
+      - http:
+          path: camps/{id}
+          method: delete
+  updateCamp:
+    handler: handler.updateCamp
+    events:
+      - http:
+          path: camps/{id}
+          method: put
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

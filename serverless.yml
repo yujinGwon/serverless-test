@@ -64,37 +64,37 @@ provider:
 
 functions:
   getList:
-    handler: camps.getList
+    handler: camps/getList.getList
     events:
       - http:
           path: /camps
           method: get
   getCamp:
-    handler: camps.getCamp
+    handler: camps/getCamp.getCamp
     events:
       - http:
           path: /camps/{id}
           method: get
   patchLikes:
-    handler: camps.patchLikes
+    handler: camps/patchLikes.patchLikes
     events:
       - http:
           path: /camps/{id}
           method: patch
   createCamp:
-    handler: camps.createCamp
+    handler: camps/createCamp.createCamp
     events:
       - http:
           path: /camps
           method: post
   deleteCamp:
-    handler: camps.deleteCamp
+    handler: camps/deleteCamp.deleteCamp
     events:
       - http:
           path: /camps/{id}
           method: delete
   updateCamp:
-    handler: camps.updateCamp
+    handler: camps/updateCamp.updateCamp
     events:
       - http:
           path: /camps/{id}

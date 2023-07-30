@@ -30,9 +30,8 @@ exports.getList = async (event, context) => {
     body = err.message;
   } finally {
     body = JSON.stringify(body);
+    body.message = "main 버전 겟 리스트";
   }
-
-  body.message = "main 버전 겟 리스트";
 
   return {
     statusCode,

@@ -34,8 +34,8 @@ exports.getCamp = async (event, context) => {
     statusCode = 400;
     body = err.message;
   } finally {
-    body = JSON.stringify(body);
     body.message = "main 버전의 메세지";
+    body = JSON.stringify(body);
   }
 
   return {

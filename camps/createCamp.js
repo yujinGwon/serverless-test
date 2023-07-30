@@ -39,7 +39,7 @@ export const createCamp = async (event, context) => {
         },
       })
     );
-    body = `Created Camp ${requestPostJSON.title}`;
+    body = `Created Camp!!! ${requestPostJSON.title}`;
   } catch (err) {
     statusCode = 400;
     body = err.message;

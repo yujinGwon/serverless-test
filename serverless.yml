@@ -150,18 +150,18 @@ functions:
 #       Description: "Description for the output"
 #       Value: "Some output value"
 
-resources:
-  Resources:
-    myDynamoDBTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: boot-camp
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+# resources:
+#   Resources:
+#     myDynamoDBTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: boot-camp
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: N
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 5
+#           WriteCapacityUnits: 5

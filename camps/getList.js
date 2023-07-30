@@ -25,6 +25,7 @@ exports.getList = async (event, context) => {
       new ScanCommand({ TableName: tableName })
     );
     body = body.Items;
+    body.message = "main 버전 겟 리스트";
   } catch (err) {
     statusCode = 400;
     body = err.message;

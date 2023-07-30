@@ -23,7 +23,7 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: main
+  stage: dev
   region: ap-northeast-1
   # httpApi:
   #   cors: true
@@ -150,18 +150,18 @@ functions:
 #       Description: "Description for the output"
 #       Value: "Some output value"
 
-resources:
-  Resources:
-    myDynamoDBTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: boot-camp
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+# resources:
+#   Resources:
+#     myDynamoDBTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: boot-camp
+#         AttributeDefinitions:
+#           - AttributeName: id
+#             AttributeType: N
+#         KeySchema:
+#           - AttributeName: id
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 5
+#           WriteCapacityUnits: 5

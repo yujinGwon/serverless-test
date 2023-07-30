@@ -1,36 +1,45 @@
-'use strict';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  ScanCommand,
+  PutCommand,
+  GetCommand,
+  DeleteCommand,
+  UpdateCommand,
+} from "@aws-sdk/lib-dynamodb";
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const client = new DynamoDBClient({});
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamo = DynamoDBDocumentClient.from(client);
 
-module.exports.deleteCamp = (event, context, callback) => {
-  const params = {
-    TableName: process.env.DYNAMODB_TABLE,
-    Key: {
-      id: parseInt(event.pathParameters.id),
-    },
+const tableName = "boot-camp";
+
+export const createCamp = async (event, context) => {
+  let body;
+  let statusCode = 200;
+  const headers = {
+    "Content-Type": "application/json",
   };
+  try {
+    await dynamo.send(
+      new DeleteCommand({
+        TableName: tableName,
+        Key: {
+          id: parseInt(event.pathParameters.id),
+        },
+      })
+    );
+    body = `Deleted Camp ${event.pathParameters.id}`;
+  } catch (err) {
+    statusCode = 400;
+    body = err.message;
+  } finally {
+    body = JSON.stringify(body);
+  }
 
-  // delete the todo from the database
-  dynamoDb.delete(params, (error) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: '캠프 삭제 실패',
-      });
-      return;
-    }
-
-    // create a response
-    const response = {
-      statusCode: 200,
-      //body: JSON.stringify({}),
-      body: `Deleted Camp ${event.pathParameters.id}`,
-    };
-    callback(null, response);
-  });
+  return {
+    statusCode,
+    body,
+    headers,
+  };
 };

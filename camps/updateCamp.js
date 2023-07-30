@@ -1,65 +1,56 @@
-'use strict';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  ScanCommand,
+  PutCommand,
+  GetCommand,
+  DeleteCommand,
+  UpdateCommand,
+} from "@aws-sdk/lib-dynamodb";
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const client = new DynamoDBClient({});
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamo = DynamoDBDocumentClient.from(client);
 
-module.exports.updateCamp = (event, context, callback) => {
-  const timestamp = new Date().getTime();
-  const data = JSON.parse(event.body);
+const tableName = "boot-camp";
 
-  // validation
-  // if (typeof data.text !== 'string' || typeof data.checked !== 'boolean') {
-  //   console.error('Validation Failed');
-  //   callback(null, {
-  //     statusCode: 400,
-  //     headers: { 'Content-Type': 'text/plain' },
-  //     body: 'Couldn\'t update the todo item.',
-  //   });
-  //   return;
-  // }
-
-  const params = {
-    TableName: process.env.DYNAMODB_TABLE,
-    Key: {
-      id: parseInt(event.pathParameters.id),
-    },
-    // ExpressionAttributeNames: {
-    //   '#todo_text': 'text',
-    // },
-    ExpressionAttributeValues: {
-      ':title': data.title,
-      ':description': data.description,
-      ':event': data.event,
-      ':company': data.company,
-      ':stack': data.stack,
-      ':deadline': data.deadline,
-      ':start': data.start,
-      ':end': data.end,
-      //':likes': data.likes,
-    },
-    UpdateExpression: 'SET #ttitle = :title, description = :description, event = :event, company = :company, stack = :stack, deadline = :deadline, start = :start, end = :end',
-    ReturnValues: 'ALL_NEW',
+export const createCamp = async (event, context) => {
+  let body;
+  let statusCode = 200;
+  const headers = {
+    "Content-Type": "application/json",
   };
+  try {
+    let requestPutJSON = JSON.parse(event.body);
+    await dynamo.send(
+      new PutCommand({
+        TableName: tableName,
+        Item: {
+          id: parseInt(event.pathParameters.id),
+          title: requestPutJSON.title,
+          description: requestPutJSON.description,
+          event: requestPutJSON.event,
+          company: requestPutJSON.company,
+          stack: requestPutJSON.stack,
+          deadline: requestPutJSON.deadline,
+          start: requestPutJSON.start,
+          end: requestPutJSON.end,
+          likes: requestPutJSON.likes,
+        },
+      })
+    );
+    console.log(event.routeKey);
+    body = `Updated Camp ${requestPutJSON.title}`;
+  } catch (err) {
+    statusCode = 400;
+    body = err.message;
+  } finally {
+    body = JSON.stringify(body);
+  }
 
-  // update the todo in the database
-  dynamoDb.update(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: '값을 수정하지 못했습니다.',
-      });
-      return;
-    }
-
-    // create a response
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(result.Attributes),
-    };
-    callback(null, response);
-  });
+  return {
+    statusCode,
+    body,
+    headers,
+  };
 };

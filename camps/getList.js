@@ -1,33 +1,40 @@
-'use strict';
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  ScanCommand,
+  PutCommand,
+  GetCommand,
+  DeleteCommand,
+  UpdateCommand,
+} from "@aws-sdk/lib-dynamodb";
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const client = new DynamoDBClient({});
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const params = {
-  TableName: process.env.DYNAMODB_TABLE,
-};
+const dynamo = DynamoDBDocumentClient.from(client);
 
-module.exports.getList = (event, context, callback) => {
-  console.log('겟 리스트를 탔습니다.');
-  console.log(params);
-  // fetch all todos from the database
-  dynamoDb.scan(params, (error, result) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      callback(null, {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: '캠프 리스틑를 가져오지 못했습니다.',
-      });
-      return;
-    }
+const tableName = "boot-camp";
 
-    // create a response
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(result.Items),
-    };
-    callback(null, response);
-  });
+export const getList = async (event, context) => {
+  let body;
+  let statusCode = 200;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    body = await dynamo.send(
+      new ScanCommand({ TableName: tableName })
+    );
+    body = body.Items;
+  } catch (err) {
+    statusCode = 400;
+    body = err.message;
+  } finally {
+    body = JSON.stringify(body);
+  }
+
+  return {
+    statusCode,
+    body,
+    headers,
+  };
 };

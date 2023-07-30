@@ -8,6 +8,8 @@ const params = {
 };
 
 module.exports.getList = (event, context, callback) => {
+  console.log('겟 리스트를 탔습니다.');
+  console.log(params);
   // fetch all todos from the database
   dynamoDb.scan(params, (error, result) => {
     // handle potential errors

@@ -24,8 +24,10 @@ provider:
   name: aws
   runtime: nodejs18.x
   stage: dev
-  region: ap-northeast-2
-
+  region: ap-northeast-1
+  httpApi:
+    cors: true
+  
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -62,40 +64,40 @@ provider:
 
 functions:
   getList:
-    handler: handler.getList
+    handler: camps.getList
     events:
       - http:
-          path: camps
+          path: /camps
           method: get
   getCamp:
-    handler: handler.getCamp
+    handler: camps.getCamp
     events:
       - http:
-          path: camps/{id}
+          path: /camps/{id}
           method: get
   patchLikes:
-    handler: handler.patchLikes
+    handler: camps.patchLikes
     events:
       - http:
-          path: camps/{id}
+          path: /camps/{id}
           method: patch
   createCamp:
-    handler: handler.createCamp
+    handler: camps.createCamp
     events:
       - http:
-          path: camps
+          path: /camps
           method: post
   deleteCamp:
-    handler: handler.deleteCamp
+    handler: camps.deleteCamp
     events:
       - http:
-          path: camps/{id}
+          path: /camps/{id}
           method: delete
   updateCamp:
-    handler: handler.updateCamp
+    handler: camps.updateCamp
     events:
       - http:
-          path: camps/{id}
+          path: /camps/{id}
           method: put
 
 #    The following are a few example events you can configure

@@ -1,12 +1,12 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import {
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const {
   DynamoDBDocumentClient,
   ScanCommand,
   PutCommand,
   GetCommand,
   DeleteCommand,
   UpdateCommand,
-} from "@aws-sdk/lib-dynamodb";
+} = require("@aws-sdk/lib-dynamodb");
 
 const client = new DynamoDBClient({});
 
@@ -14,7 +14,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 
 const tableName = "boot-camp";
 
-export const createCamp = async (event, context) => {
+exports.createCamp = async (event, context) => {
   let body;
   let statusCode = 200;
   const headers = {
@@ -39,7 +39,7 @@ export const createCamp = async (event, context) => {
         },
       })
     );
-    body = `Created Camp ${requestPostJSON.title}`;
+    body = `Created Camp!!! ${requestPostJSON.title}`;
   } catch (err) {
     statusCode = 400;
     body = err.message;

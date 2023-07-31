@@ -39,7 +39,7 @@ exports.createCamp = async (event, context) => {
         },
       })
     );
-    body = `Created Camp! Prod Version ${requestPostJSON.title}`;
+    body = `Created Camp! Dev Version ${requestPostJSON.title}`;
   } catch (err) {
     statusCode = 400;
     body = err.message;

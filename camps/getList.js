@@ -15,6 +15,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const tableName = "boot-camp";
 
 exports.getList = async (event, context) => {
+  console.log('겟이지롱');
   let body;
   let statusCode = 200;
   const headers = {
